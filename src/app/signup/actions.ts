@@ -1,34 +1,29 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
-
 import { z } from 'zod';
 
 const SignupSchema = z.object({
-  email: z.email(),
-  password: z.string().min(6),
+    email: z.string().email({ message: "Please enter a valid email." }),
+    password: z.string().min(6, { message: "Password must be at least 6 characters." }),
 });
 
-export async function signup(formData: FormData) {
-  const supabase = await createClient()
+export async function signup(prevState: any, formData: FormData) {
+    const validatedFields = SignupSchema.safeParse(
+        Object.fromEntries(formData.entries())
+    );
 
-  try {
-    const data = SignupSchema.parse(Object.fromEntries(formData.entries()));
+    if (!validatedFields.success) {
+        const errorMessage = validatedFields.error.issues.map(e => e.message).join('. ');
+        return { type: 'error', message: errorMessage };
+    }
 
-    const { error } = await supabase.auth.signUp(data);
+    const supabase = await createClient()
+    const { error } = await supabase.auth.signUp(validatedFields.data);
 
     if (error) {
-      redirect("/error");
+        return { type: 'error', message: error.message };
     }
-  } catch (error) {
-    // For now, redirect to a generic error page. 
-    // In a real app, you'd want to show more specific error messages to the user.
-    redirect("/error");
-  }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+    return { type: 'success', message: 'Success! Please check your email to confirm your account.' };
 }

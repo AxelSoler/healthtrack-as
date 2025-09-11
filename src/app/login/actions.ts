@@ -8,27 +8,27 @@ import { createClient } from '@/utils/supabase/server'
 import { z } from 'zod';
 
 const LoginSchema = z.object({
-  email: z.email(),
-  password: z.string().min(6),
+  email: z.email({ message: "Please enter a valid email." }),
+  password: z.string().min(1, { message: "Password cannot be empty." }),
 });
 
-export async function login(formData: FormData) {
-  const supabase = await createClient()
+export async function login(prevState: any, formData: FormData) {
+    const validatedFields = LoginSchema.safeParse(
+        Object.fromEntries(formData.entries())
+    );
 
-  try {
-    const data = LoginSchema.parse(Object.fromEntries(formData.entries()));
+    if (!validatedFields.success) {
+        const errorMessage = validatedFields.error.issues.map(e => e.message).join('. ');
+        return { message: errorMessage };
+    }
 
-    const { error } = await supabase.auth.signInWithPassword(data);
+    const supabase = await createClient()
+    const { error } = await supabase.auth.signInWithPassword(validatedFields.data);
 
     if (error) {
-      redirect("/error");
+        return { message: error.message };
     }
-  } catch (error) {
-    // For now, redirect to a generic error page. 
-    // In a real app, you'd want to show more specific error messages to the user.
-    redirect("/error");
-  }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+    revalidatePath('/', 'layout')
+    redirect('/')
 }
