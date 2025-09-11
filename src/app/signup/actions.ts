@@ -3,6 +3,11 @@
 import { createClient } from "@/utils/supabase/server";
 import { z } from "zod";
 
+export interface SignupFormState {
+  type?: "success" | "error";
+  message: string;
+}
+
 const SignupSchema = z.object({
   email: z.email({ message: "Please enter a valid email." }),
   password: z
@@ -10,7 +15,10 @@ const SignupSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters." }),
 });
 
-export async function signup(prevState: any, formData: FormData) {
+export async function signup(
+  prevState: SignupFormState | null,
+  formData: FormData
+): Promise<SignupFormState> {
   const validatedFields = SignupSchema.safeParse(
     Object.fromEntries(formData.entries())
   );

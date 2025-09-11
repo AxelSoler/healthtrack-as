@@ -2,17 +2,22 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
 import { createClient } from "@/utils/supabase/server";
-
 import { z } from "zod";
+
+export interface LoginFormState {
+  message: string;
+}
 
 const LoginSchema = z.object({
   email: z.email({ message: "Please enter a valid email." }),
   password: z.string().min(1, { message: "Password cannot be empty." }),
 });
 
-export async function login(prevState: any, formData: FormData) {
+export async function login(
+  prevState: LoginFormState | null,
+  formData: FormData
+): Promise<LoginFormState> {
   const validatedFields = LoginSchema.safeParse(
     Object.fromEntries(formData.entries())
   );
