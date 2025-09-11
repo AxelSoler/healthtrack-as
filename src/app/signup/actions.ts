@@ -7,18 +7,18 @@ import { createClient } from '@/utils/supabase/server'
 
 import { z } from 'zod';
 
-const LoginSchema = z.object({
+const SignupSchema = z.object({
   email: z.email(),
   password: z.string().min(6),
 });
 
-export async function login(formData: FormData) {
+export async function signup(formData: FormData) {
   const supabase = await createClient()
 
   try {
-    const data = LoginSchema.parse(Object.fromEntries(formData.entries()));
+    const data = SignupSchema.parse(Object.fromEntries(formData.entries()));
 
-    const { error } = await supabase.auth.signInWithPassword(data);
+    const { error } = await supabase.auth.signUp(data);
 
     if (error) {
       redirect("/error");
