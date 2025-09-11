@@ -13,7 +13,7 @@ export default function LoginPage() {
     if (state?.message) {
       showNotification(state.message, "error");
     }
-  }, [state]);
+  }, [state, showNotification]);
 
   return (
     <div className="flex h-screen items-center justify-center">

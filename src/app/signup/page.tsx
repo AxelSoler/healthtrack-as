@@ -17,7 +17,7 @@ export default function SignupPage() {
         (state.type as NotificationType) || "error"
       );
     }
-  }, [state]);
+  }, [state, showNotification]);
 
   return (
     <div className="flex h-screen items-center justify-center">
