@@ -38,6 +38,6 @@ export async function login(
     return { message: error.message };
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/dashboard", "layout");
+  redirect("/dashboard");
 }
