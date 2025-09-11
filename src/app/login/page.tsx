@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import Link from 'next/link';
-import { useActionState, useEffect } from 'react';
-import { login } from './actions';
-import { useNotification } from '@/components/notifications/NotificationContext';
+import Link from "next/link";
+import { useActionState, useEffect } from "react";
+import { login } from "./actions";
+import { useNotification } from "@/components/notifications/NotificationContext";
 
 export default function LoginPage() {
   const [state, formAction] = useActionState(login, null);
@@ -11,7 +11,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (state?.message) {
-      showNotification(state.message, 'error');
+      showNotification(state.message, "error");
     }
   }, [state]);
 
@@ -25,15 +25,25 @@ export default function LoginPage() {
           <h1 className="text-xl font-bold text-center">Login</h1>
           <div className="space-y-2">
             <label htmlFor="email">Email:</label>
-            <input className="w-full border p-2 rounded" id="email" name="email" type="email" required />
+            <input
+              className="w-full border p-2 rounded"
+              id="email"
+              name="email"
+              type="email"
+              required
+            />
           </div>
           <div className="space-y-2">
             <label htmlFor="password">Password:</label>
-            <input className="w-full border p-2 rounded" id="password" name="password" type="password" required />
+            <input
+              className="w-full border p-2 rounded"
+              id="password"
+              name="password"
+              type="password"
+              required
+            />
           </div>
-          <button
-            className="w-full bg-neutral-800 dark:bg-neutral-200 text-white dark:text-black p-2 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors"
-          >
+          <button className="w-full bg-neutral-800 dark:bg-neutral-200 text-white dark:text-black p-2 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors">
             Log in
           </button>
           <p className="text-sm text-center">

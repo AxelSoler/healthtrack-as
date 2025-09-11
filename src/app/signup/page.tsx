@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import Link from 'next/link';
-import { useActionState, useEffect } from 'react';
-import { signup } from './actions';
-import { useNotification } from '@/components/notifications/NotificationContext';
-import { NotificationType } from '@/components/notifications/Notification';
+import Link from "next/link";
+import { useActionState, useEffect } from "react";
+import { signup } from "./actions";
+import { useNotification } from "@/components/notifications/NotificationContext";
+import { NotificationType } from "@/components/notifications/Notification";
 
 export default function SignupPage() {
   const [state, formAction] = useActionState(signup, null);
@@ -12,7 +12,10 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (state?.message) {
-      showNotification(state.message, (state.type as NotificationType) || 'error');
+      showNotification(
+        state.message,
+        (state.type as NotificationType) || "error"
+      );
     }
   }, [state]);
 
@@ -26,15 +29,25 @@ export default function SignupPage() {
           <h1 className="text-xl font-bold text-center">Sign Up</h1>
           <div className="space-y-2">
             <label htmlFor="email">Email:</label>
-            <input className="w-full border p-2 rounded" id="email" name="email" type="email" required />
+            <input
+              className="w-full border p-2 rounded"
+              id="email"
+              name="email"
+              type="email"
+              required
+            />
           </div>
           <div className="space-y-2">
             <label htmlFor="password">Password:</label>
-            <input className="w-full border p-2 rounded" id="password" name="password" type="password" required />
+            <input
+              className="w-full border p-2 rounded"
+              id="password"
+              name="password"
+              type="password"
+              required
+            />
           </div>
-          <button
-            className="w-full bg-neutral-800 dark:bg-neutral-200 text-white dark:text-black p-2 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors"
-          >
+          <button className="w-full bg-neutral-800 dark:bg-neutral-200 text-white dark:text-black p-2 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors">
             Sign up
           </button>
           <p className="text-sm text-center">

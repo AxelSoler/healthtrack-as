@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 const Home = () => {
   return (
@@ -13,16 +13,26 @@ const Home = () => {
           </span>
         </h1>
         <p>
-          Your personal health tracking app. Monitor your well-being and stay on top of your health goals with ease.
+          Your personal health tracking app. Monitor your well-being and stay on
+          top of your health goals with ease.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 text-lg sm:text-xl sm:justify-end w-full">
-          <Link href="/signup" className="bg-neutral-200 dark:bg-neutral-800 p-2 rounded hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors">Create account</Link>
-          <Link href="/login" className="bg-pink-200 dark:bg-pink-800 p-2 rounded hover:bg-pink-500 dark:hover:bg-pink-700 transition-colors">Login</Link>
+          <Link
+            href="/signup"
+            className="bg-neutral-200 dark:bg-neutral-800 p-2 rounded hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors"
+          >
+            Create account
+          </Link>
+          <Link
+            href="/login"
+            className="bg-pink-200 dark:bg-pink-800 p-2 rounded hover:bg-pink-500 dark:hover:bg-pink-700 transition-colors"
+          >
+            Login
+          </Link>
         </div>
-
       </main>
     </div>
   );
-}
+};
 
 export default Home;

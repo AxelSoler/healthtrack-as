@@ -1,31 +1,34 @@
+"use client";
 
-'use client'
+import { createContext, useContext, useState, ReactNode } from "react";
+import Notification from "./Notification";
 
-import { createContext, useContext, useState, ReactNode } from 'react'
-import Notification from './Notification'
-
-type NotificationType = 'success' | 'warning' | 'error'
+type NotificationType = "success" | "warning" | "error";
 
 interface NotificationState {
-  message: string
-  type: NotificationType
+  message: string;
+  type: NotificationType;
 }
 
 interface NotificationContextType {
-  showNotification: (message: string, type: NotificationType) => void
+  showNotification: (message: string, type: NotificationType) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined)
+const NotificationContext = createContext<NotificationContextType | undefined>(
+  undefined
+);
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
-  const [notification, setNotification] = useState<NotificationState | null>(null)
+  const [notification, setNotification] = useState<NotificationState | null>(
+    null
+  );
 
   const showNotification = (message: string, type: NotificationType) => {
-    setNotification({ message, type })
+    setNotification({ message, type });
     setTimeout(() => {
-      setNotification(null)
-    }, 3000)
-  }
+      setNotification(null);
+    }, 3000);
+  };
 
   return (
     <NotificationContext.Provider value={{ showNotification }}>
@@ -34,13 +37,15 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         <Notification message={notification.message} type={notification.type} />
       )}
     </NotificationContext.Provider>
-  )
+  );
 }
 
 export function useNotification() {
-  const context = useContext(NotificationContext)
+  const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotification must be used within a NotificationProvider')
+    throw new Error(
+      "useNotification must be used within a NotificationProvider"
+    );
   }
-  return context
+  return context;
 }
