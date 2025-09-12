@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const MetricSchema = z.object({
@@ -47,6 +48,8 @@ export async function addMetric(formData: FormData) {
       error: "Failed to save metric. Please try again.",
     };
   }
+
+  redirect("/dashboard");
 
   return {
     success: true,
