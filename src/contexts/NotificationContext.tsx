@@ -1,17 +1,32 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode, useCallback, useMemo } from "react";
-import Notification from "./Notification";
-
-type NotificationType = "success" | "warning" | "error";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useCallback,
+  useMemo,
+} from "react";
+import Notification, {
+  NotificationType,
+} from "@/components/notifications/Notification";
+import { AnimatePresence } from "framer-motion";
+import { nanoid } from "nanoid";
 
 interface NotificationState {
+  id: string;
   message: string;
   type: NotificationType;
+  duration?: number;
 }
 
 interface NotificationContextType {
-  showNotification: (message: string, type: NotificationType) => void;
+  showNotification: (
+    message: string,
+    type: NotificationType,
+    duration?: number
+  ) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
@@ -19,15 +34,18 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 );
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
-  const [notification, setNotification] = useState<NotificationState | null>(
-    null
+  const [notifications, setNotifications] = useState<NotificationState[]>([]);
+
+  const showNotification = useCallback(
+    (message: string, type: NotificationType, duration?: number) => {
+      const id = nanoid();
+      setNotifications((prev) => [...prev, { id, message, type, duration }]);
+    },
+    []
   );
 
-  const showNotification = useCallback((message: string, type: NotificationType) => {
-    setNotification({ message, type });
-    setTimeout(() => {
-      setNotification(null);
-    }, 3000);
+  const closeNotification = useCallback((id: string) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
   const value = useMemo(() => ({ showNotification }), [showNotification]);
@@ -35,9 +53,19 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   return (
     <NotificationContext.Provider value={value}>
       {children}
-      {notification && (
-        <Notification message={notification.message} type={notification.type} />
-      )}
+      <div className="fixed top-5 right-5 z-50 space-y-2">
+        <AnimatePresence>
+          {notifications.map((n) => (
+            <Notification
+              key={n.id}
+              message={n.message}
+              type={n.type}
+              duration={n.duration}
+              onClose={() => closeNotification(n.id)}
+            />
+          ))}
+        </AnimatePresence>
+      </div>
     </NotificationContext.Provider>
   );
 }
