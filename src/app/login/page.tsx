@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { login } from "./actions";
-import { useNotification } from "@/components/notifications/NotificationContext";
+import { useNotification } from "@/contexts/NotificationContext";
 
 export default function LoginPage() {
   const [state, formAction] = useActionState(login, null);

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { signup } from "./actions";
-import { useNotification } from "@/components/notifications/NotificationContext";
+import { useNotification } from "@/contexts/NotificationContext";
 import { NotificationType } from "@/components/notifications/Notification";
 
 export default function SignupPage() {

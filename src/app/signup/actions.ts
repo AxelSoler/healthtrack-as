@@ -55,6 +55,6 @@ export async function signup(
 
   return {
     type: "success",
-    message: "Success! Please check your email to confirm your account.",
+    message: "Check your email for a confirmation link to complete your registration.",
   };
 }
