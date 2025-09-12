@@ -8,7 +8,7 @@ const Home = () => {
       <main className="flex flex-col gap-8 items-center sm:items-start">
         <h1 className="text-4xl sm:text-5xl font-bold text-center sm:text-left">
           Welcome to{" "}
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-300 to-pink-600">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-light to-primary-dark">
             HEALTH TRACK - AS
           </span>
         </h1>
@@ -25,7 +25,7 @@ const Home = () => {
           </Link>
           <Link
             href="/login"
-            className="bg-pink-200 dark:bg-pink-800 p-2 rounded hover:bg-pink-500 dark:hover:bg-pink-700 transition-colors"
+            className="bg-primary p-2 rounded hover:bg-primary-dark transition-colors"
           >
             Login
           </Link>

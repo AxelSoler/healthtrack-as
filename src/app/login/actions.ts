@@ -25,7 +25,7 @@ export async function login(
   if (!validatedFields.success) {
     const errorMessage = validatedFields.error.issues
       .map((e) => e.message)
-      .join(". ");
+      .join("\n");
     return { message: errorMessage };
   }
 
