@@ -4,7 +4,7 @@
 import { useActionState, useEffect, useRef } from "react";
 import { useNotification } from "@/contexts/NotificationContext";
 import { addMetric } from "./actions";
-import { SubmitButton } from "@/components/SubmitButton";
+import { SubmitButton } from "@/components/buttons/SubmitButton";
 
 export function MetricForm({ onSuccess }: { onSuccess?: () => void }) {
   const [state, formAction] = useActionState(addMetric, null);

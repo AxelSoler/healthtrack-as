@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { login } from "./actions";
 import { useNotification } from "@/contexts/NotificationContext";
-import { SubmitButton } from "@/components/SubmitButton";
+import { SubmitButton } from "@/components/buttons/SubmitButton";
 
 export default function LoginPage() {
   const [state, formAction] = useActionState(login, null);

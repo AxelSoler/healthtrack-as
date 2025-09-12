@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useFormStatus } from "react-dom";
 
 export function SubmitButton({

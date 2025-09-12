@@ -5,7 +5,7 @@ import { useActionState, useEffect } from "react";
 import { signup } from "./actions";
 import { useNotification } from "@/contexts/NotificationContext";
 import { NotificationType } from "@/components/notifications/Notification";
-import { SubmitButton } from "@/components/SubmitButton";
+import { SubmitButton } from "@/components/buttons/SubmitButton";
 
 export default function SignupPage() {
   const [state, formAction] = useActionState(signup, null);
