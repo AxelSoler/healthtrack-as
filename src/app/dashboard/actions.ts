@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const MetricSchema = z.object({
@@ -10,7 +10,7 @@ const MetricSchema = z.object({
   sleep_hours: z.coerce.number().optional(),
 });
 
-export async function addMetric(formData: FormData) {
+export async function addMetric(prevState: any, formData: FormData) {
   const supabase = await createClient();
 
   const {
@@ -49,8 +49,7 @@ export async function addMetric(formData: FormData) {
     };
   }
 
-  redirect("/dashboard");
-
+  revalidatePath("/dashboard");
   return {
     success: true,
   };

@@ -5,6 +5,7 @@ import { useActionState, useEffect } from "react";
 import { signup } from "./actions";
 import { useNotification } from "@/contexts/NotificationContext";
 import { NotificationType } from "@/components/notifications/Notification";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default function SignupPage() {
   const [state, formAction] = useActionState(signup, null);
@@ -57,9 +58,9 @@ export default function SignupPage() {
               required
             />
           </div>
-          <button className="w-full bg-neutral-800 dark:bg-neutral-200 text-white dark:text-black p-2 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors">
+          <SubmitButton className="w-full bg-primary text-white p-2 rounded hover:bg-primary-dark transition-colors">
             Sign up
-          </button>
+          </SubmitButton>
           <p className="text-sm text-center">
             Already have an account?{" "}
             <Link href="/login" className="underline text-blue-500">

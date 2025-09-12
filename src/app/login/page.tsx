@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { login } from "./actions";
 import { useNotification } from "@/contexts/NotificationContext";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default function LoginPage() {
   const [state, formAction] = useActionState(login, null);
@@ -43,9 +44,9 @@ export default function LoginPage() {
               required
             />
           </div>
-          <button className="w-full bg-neutral-800 dark:bg-neutral-200 text-white dark:text-black p-2 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors">
+          <SubmitButton className="w-full bg-primary text-white p-2 rounded hover:bg-primary-dark transition-colors">
             Log in
-          </button>
+          </SubmitButton>
           <p className="text-sm text-center">
             Don&apos;t have an account?{" "}
             <Link href="/signup" className="underline text-blue-500">

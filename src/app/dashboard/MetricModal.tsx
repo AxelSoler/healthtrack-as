@@ -16,7 +16,7 @@ export function MetricModal() {
         Add Metric
       </button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <MetricForm />
+        <MetricForm onSuccess={() => setIsOpen(false)} />
       </Modal>
     </div>
   );

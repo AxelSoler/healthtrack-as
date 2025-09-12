@@ -1,28 +1,32 @@
 
 "use client";
 
-import { useRef } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useNotification } from "@/contexts/NotificationContext";
 import { addMetric } from "./actions";
+import { SubmitButton } from "@/components/SubmitButton";
 
-export function MetricForm() {
+export function MetricForm({ onSuccess }: { onSuccess?: () => void }) {
+  const [state, formAction] = useActionState(addMetric, null);
   const formRef = useRef<HTMLFormElement>(null);
   const { showNotification } = useNotification();
 
-  const handleSubmit = async (formData: FormData) => {
-    const result = await addMetric(formData);
-    if (result.error) {
-      showNotification(result.error, "error");
-    } else {
+  useEffect(() => {
+    if (state?.error) {
+      showNotification(state.error, "error");
+    } else if (state?.success) {
       showNotification("Metric saved successfully!", "success");
       formRef.current?.reset();
+      if (onSuccess) {
+        onSuccess();
+      }
     }
-  };
+  }, [state, showNotification, onSuccess]);
 
   return (
     <form
       ref={formRef}
-      action={handleSubmit}
+      action={formAction}
       className="p-6 bg-neutral-100 dark:bg-neutral-900 rounded-lg shadow-md w-full max-w-md"
     >
       <h2 className="text-2xl font-bold mb-4 text-center">Add New Metric</h2>
@@ -63,12 +67,11 @@ export function MetricForm() {
           />
         </div>
       </div>
-      <button
-        type="submit"
-        className="mt-6 w-full bg-primary p-3 rounded-md hover:bg-primary-dark transition-colors"
+      <SubmitButton
+        className="mt-6 w-full bg-primary text-white p-3 rounded-md hover:bg-primary-dark transition-colors"
       >
         Save Metric
-      </button>
+      </SubmitButton>
     </form>
   );
 }
