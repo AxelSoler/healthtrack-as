@@ -47,6 +47,16 @@ export default function SignupPage() {
               required
             />
           </div>
+          <div className="space-y-2">
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <input
+              className="w-full border p-2 rounded"
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+            />
+          </div>
           <button className="w-full bg-neutral-800 dark:bg-neutral-200 text-white dark:text-black p-2 rounded hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors">
             Sign up
           </button>
