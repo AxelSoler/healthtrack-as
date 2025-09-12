@@ -43,7 +43,7 @@ export default function Notification({
       exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.5 } }}
       className={`${baseClasses} ${typeClasses[type]}`}
     >
-      {message}
+      <div className="whitespace-pre-line">{message}</div>
     </motion.div>
   );
 }

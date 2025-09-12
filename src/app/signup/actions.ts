@@ -42,7 +42,7 @@ export async function signup(
   if (!validatedFields.success) {
     const errorMessage = validatedFields.error.issues
       .map((e) => e.message)
-      .join(". ");
+      .join("\n");
     return { type: "error", message: errorMessage };
   }
 
