@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { SignOutButton } from "./SignOutButton";
+import { Header } from "@/components/layout/Header";
 import { MetricModal } from "./MetricModal";
 import { MetricChart } from "@/components/charts/MetricChart";
 
@@ -23,10 +23,7 @@ const Dashboard = async () => {
 
   return (
     <div className="w-full min-h-screen bg-background text-foreground">
-      <header className="flex justify-between items-center p-4 border-b border-neutral-200 dark:border-neutral-800">
-        <h1 className="text-xl font-bold text-primary">HealthTrack</h1>
-        <SignOutButton />
-      </header>
+      <Header />
 
       <main className="p-4 md:p-8 flex flex-col items-center gap-2 md:gap-8">
         <MetricModal />
