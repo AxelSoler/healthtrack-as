@@ -31,7 +31,7 @@ jest.mock("../../components/charts/MetricChart", () => ({
 }));
 
 // Mock SignOutButton to simplify the snapshot
-jest.mock("../../app/dashboard/SignOutButton", () => ({
+jest.mock("../../components/buttons/SignOutButton", () => ({
   SignOutButton: () => <button>Logout</button>,
 }));
 
