@@ -10,7 +10,7 @@ const MetricSchema = z.object({
   sleep_hours: z.coerce.number().optional(),
 });
 
-export async function addMetric(prevState: { error?: string; success?: boolean }, formData: FormData) {
+export async function addMetric(_prevState: unknown, formData: FormData) {
   const supabase = await createClient();
 
   const {
