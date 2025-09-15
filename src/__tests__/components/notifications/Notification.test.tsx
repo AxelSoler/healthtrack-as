@@ -6,7 +6,8 @@ import Notification from "@/components/notifications/Notification";
 jest.mock("framer-motion", () => ({
   ...jest.requireActual("framer-motion"),
   motion: {
-    div: ({ layout, ...props }: any) => <div {...props} />,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    div: ({ layout, ...props }: Record<string, unknown>) => <div {...props} />,
   },
 }));
 

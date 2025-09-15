@@ -1,16 +1,18 @@
-
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
+import { useFormStatus } from "react-dom";
 
 jest.mock("react-dom", () => ({
   ...jest.requireActual("react-dom"),
   useFormStatus: jest.fn(),
 }));
 
+const useFormStatusMock = useFormStatus as jest.Mock;
+
 describe("SubmitButton", () => {
   it("renders children when not pending", () => {
-    (require("react-dom").useFormStatus as jest.Mock).mockReturnValue({
+    useFormStatusMock.mockReturnValue({
       pending: false,
     });
     render(<SubmitButton>Test</SubmitButton>);
@@ -18,7 +20,7 @@ describe("SubmitButton", () => {
   });
 
   it("renders loading indicator when pending", () => {
-    (require("react-dom").useFormStatus as jest.Mock).mockReturnValue({
+    useFormStatusMock.mockReturnValue({
       pending: true,
     });
     render(<SubmitButton>Test</SubmitButton>);
@@ -26,7 +28,7 @@ describe("SubmitButton", () => {
   });
 
   it("disables button when pending", () => {
-    (require("react-dom").useFormStatus as jest.Mock).mockReturnValue({
+    useFormStatusMock.mockReturnValue({
       pending: true,
     });
     render(<SubmitButton>Test</SubmitButton>);
@@ -34,7 +36,7 @@ describe("SubmitButton", () => {
   });
 
   it("does not disable button when not pending", () => {
-    (require("react-dom").useFormStatus as jest.Mock).mockReturnValue({
+    useFormStatusMock.mockReturnValue({
       pending: false,
     });
     render(<SubmitButton>Test</SubmitButton>);

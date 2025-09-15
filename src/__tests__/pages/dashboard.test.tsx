@@ -25,7 +25,7 @@ jest.mock("../../utils/supabase/server", () => ({
 
 // Mock MetricChart to avoid rendering heavy recharts in the page render.
 jest.mock("../../components/charts/MetricChart", () => ({
-  MetricChart: ({ metrics }: any) => (
+  MetricChart: ({ metrics }: { metrics: { created_at: string; weight?: number | null }[] }) => (
     <div data-testid="metric-chart">MetricChart mock ({metrics?.length ?? 0})</div>
   ),
 }));

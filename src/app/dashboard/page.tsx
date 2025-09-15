@@ -54,7 +54,7 @@ const Dashboard = async () => {
               ))
             ) : (
               <p className="text-center text-neutral-500 py-8">
-                You haven't logged any metrics yet.
+                You haven&apos;t logged any metrics yet.
               </p>
             )}
           </div>
