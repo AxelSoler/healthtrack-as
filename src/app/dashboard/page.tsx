@@ -2,7 +2,6 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { MetricModal } from "./MetricModal";
-import { MetricChart } from "@/components/charts/MetricChart";
 
 const Dashboard = async () => {
   const supabase = await createClient();
@@ -30,7 +29,6 @@ const Dashboard = async () => {
 
         <div className="w-full max-w-4xl">
           <h2 className="text-2xl font-bold mb-4">Your Metrics</h2>
-          <MetricChart metrics={metrics || []} />
           <div className="space-y-4 mt-8">
             {metrics && metrics.length > 0 ? (
               metrics.map((metric) => (

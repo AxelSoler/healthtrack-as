@@ -7,9 +7,15 @@ import { useState, useEffect } from "react";
 import { Modal } from "@/components/modal/Modal";
 import { updateWeightGoal } from "./actions";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
+import { MetricChart } from "@/components/charts/MetricChart";
 
 interface Metric {
-  weight: number;
+  created_at: string;
+  id: string;
+  user_id: string;
+  weight?: number;
+  blood_pressure?: string;
+  sleep_hours?: number;
 }
 
 interface Profile {
@@ -35,10 +41,9 @@ const GoalsPage = () => {
 
       const { data: metricsData } = await supabase
         .from("metrics")
-        .select("weight")
+        .select("*")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
-        .limit(2);
       setMetrics(metricsData || []);
 
       const { data: profileData } = await supabase
@@ -154,7 +159,7 @@ const GoalsPage = () => {
               )}
             </div>
           </div>
-          <div className="flex justify-end mt-4 w-full">
+          <div className="flex justify-end my-4 w-full">
             <button
               onClick={() => setIsModalOpen(true)}
               className="bg-primary-dark rounded-2xl px-4 py-2 cursor-pointer"
@@ -162,6 +167,7 @@ const GoalsPage = () => {
               {weightGoal > 0 ? "Update Goal" : "Set a goal!"}
             </button>
           </div>
+          <MetricChart metrics={metrics || []} />
         </div>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <form onSubmit={handleSetGoal} className="flex flex-col gap-4">
