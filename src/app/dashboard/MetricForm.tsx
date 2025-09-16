@@ -33,7 +33,7 @@ export function MetricForm({ onSuccess }: { onSuccess?: () => void }) {
       <div className="space-y-4">
         <div>
           <label htmlFor="weight" className="block text-sm font-medium">
-            Weight (kg)
+            Weight (lbs)
           </label>
           <input
             type="number"
