@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Header } from "@/components/layout/Header";
 import { createClient } from "@/utils/supabase/client";
@@ -6,17 +6,28 @@ import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Modal } from "@/components/modal/Modal";
 import { updateWeightGoal } from "./actions";
+import { SubmitButton } from "@/components/buttons/SubmitButton";
+
+interface Metric {
+  weight: number;
+}
+
+interface Profile {
+  weight_goal: number;
+}
 
 const GoalsPage = () => {
-  const [metrics, setMetrics] = useState<any[]>([]);
-  const [profile, setProfile] = useState<any>(null);
+  const [metrics, setMetrics] = useState<Metric[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newGoal, setNewGoal] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (!user) {
         redirect("/login");
@@ -48,7 +59,9 @@ const GoalsPage = () => {
       await updateWeightGoal(goal);
       setIsModalOpen(false);
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
         const { data: profileData } = await supabase
           .from("profiles")
@@ -72,7 +85,11 @@ const GoalsPage = () => {
 
   const weightGoal = profile?.weight_goal || 0;
   const poundsToGoal = Math.abs(currentWeight - weightGoal);
-  const goalProgress = weightGoal > 0 ? (currentWeight / weightGoal) * 100 : 0;
+  const goalProgress =
+    weightGoal > 0
+      ? Math.max(0, 100 - (poundsToGoal / weightGoal) * 100)
+      : 0;
+  
 
   return (
     <div className="w-full min-h-screen bg-background text-foreground">
@@ -131,9 +148,19 @@ const GoalsPage = () => {
                   <span className="text-primary">To Goal</span>
                 </>
               ) : (
-                <button onClick={() => setIsModalOpen(true)} className="bg-primary-dark rounded-2xl p-2 cursor-pointer">Set a goal!</button>
+                <h2 className="bg-primary-dark rounded-2xl p-2 cursor-pointer">
+                  Set a goal!
+                </h2>
               )}
             </div>
+          </div>
+          <div className="flex justify-end mt-4 w-full">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-primary-dark rounded-2xl px-4 py-2 cursor-pointer"
+            >
+              {weightGoal > 0 ? "Update Goal" : "Set a goal!"}
+            </button>
           </div>
         </div>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -146,9 +173,9 @@ const GoalsPage = () => {
               placeholder="Enter your goal weight"
               className="p-2 border rounded"
             />
-            <button type="submit" className="p-2 bg-primary text-white rounded">
+            <SubmitButton className="mt-6 w-full bg-primary text-white p-3 rounded-md hover:bg-primary-dark transition-colors">
               Save Goal
-            </button>
+            </SubmitButton>
           </form>
         </Modal>
       </main>

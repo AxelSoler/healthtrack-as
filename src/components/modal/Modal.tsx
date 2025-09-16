@@ -18,7 +18,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
       <div className="bg-white dark:bg-neutral-900 rounded-lg p-8 shadow-lg relative max-w-md w-full" onClick={(e) => e.stopPropagation()}>
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 text-4xl"
+          className="absolute top-4 right-4 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 text-4xl cursor-pointer"
         >
           &times;
         </button>
