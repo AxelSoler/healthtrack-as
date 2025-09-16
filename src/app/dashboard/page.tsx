@@ -1,7 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/Header";
-import { MetricModal } from "./MetricModal";
 
 const Dashboard = async () => {
   const supabase = await createClient();
@@ -25,8 +24,6 @@ const Dashboard = async () => {
       <Header />
 
       <main className="p-4 md:p-8 flex flex-col items-center gap-2 md:gap-8">
-        <MetricModal />
-
         <div className="w-full max-w-4xl">
           <h2 className="text-2xl font-bold mb-4">Your Metrics</h2>
           <div className="space-y-4 mt-8">

@@ -8,6 +8,7 @@ import { Modal } from "@/components/modal/Modal";
 import { updateWeightGoal } from "./actions";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
 import { MetricChart } from "@/components/charts/MetricChart";
+import { MetricForm } from './MetricForm';
 
 interface Metric {
   created_at: string;
@@ -43,7 +44,7 @@ const GoalsPage = () => {
         .from("metrics")
         .select("*")
         .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
+        .order("created_at", { ascending: false });
       setMetrics(metricsData || []);
 
       const { data: profileData } = await supabase
@@ -91,10 +92,7 @@ const GoalsPage = () => {
   const weightGoal = profile?.weight_goal || 0;
   const poundsToGoal = Math.abs(currentWeight - weightGoal);
   const goalProgress =
-    weightGoal > 0
-      ? Math.max(0, 100 - (poundsToGoal / weightGoal) * 100)
-      : 0;
-  
+    weightGoal > 0 ? Math.max(0, 100 - (poundsToGoal / weightGoal) * 100) : 0;
 
   return (
     <div className="w-full min-h-screen bg-background text-foreground">
@@ -159,7 +157,8 @@ const GoalsPage = () => {
               )}
             </div>
           </div>
-          <div className="flex justify-end my-4 w-full">
+          <MetricForm />
+          <div className="flex justify-center my-4 w-full">
             <button
               onClick={() => setIsModalOpen(true)}
               className="bg-primary-dark rounded-2xl px-4 py-2 cursor-pointer"

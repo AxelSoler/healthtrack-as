@@ -35,15 +35,6 @@ jest.mock("../../components/buttons/SignOutButton", () => ({
   SignOutButton: () => <button>Logout</button>,
 }));
 
-// Mock MetricModal (client component) so the server component can return JSX
-jest.mock("../../app/dashboard/MetricModal", () => ({
-  MetricModal: () => (
-    <div className="w-full max-w-4xl flex justify-end">
-      <button>Add Metric</button>
-    </div>
-  ),
-}));
-
 // Mock next/navigation redirect so page.tsx can import it safely
 jest.mock("next/navigation", () => ({
   redirect: jest.fn(),
@@ -52,15 +43,12 @@ jest.mock("next/navigation", () => ({
 import Dashboard from "@/app/dashboard/page";
 
 describe("Dashboard page (simple)", () => {
-  it("renders header, add metric button and Your Metrics heading", async () => {
+  it("renders header, and Your Metrics heading", async () => {
     const jsx = await Dashboard();
     const { findByText } = render(jsx as unknown as React.ReactElement);
 
     // Header title
     expect(await findByText(/HealthTrack/i)).toBeInTheDocument();
-
-    // Add Metric button
-    expect(await findByText(/Add Metric/i)).toBeInTheDocument();
 
     // Your Metrics heading
     expect(await findByText(/Your Metrics/i)).toBeInTheDocument();
