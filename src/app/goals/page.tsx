@@ -1,24 +1,64 @@
+'use client';
+
 import { Header } from "@/components/layout/Header";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 import { redirect } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Modal } from "@/components/modal/Modal";
+import { updateWeightGoal } from "./actions";
 
-const GoalsPage = async () => {
-  const supabase = await createClient();
+const GoalsPage = () => {
+  const [metrics, setMetrics] = useState<any[]>([]);
+  const [profile, setProfile] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newGoal, setNewGoal] = useState("");
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  useEffect(() => {
+    const fetchData = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
+      if (!user) {
+        redirect("/login");
+      }
 
-  const { data: metrics } = await supabase
-    .from("metrics")
-    .select("weight")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(2);
+      const { data: metricsData } = await supabase
+        .from("metrics")
+        .select("weight")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(2);
+      setMetrics(metricsData || []);
+
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("weight_goal")
+        .eq("id", user.id)
+        .single();
+      setProfile(profileData);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSetGoal = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const goal = parseFloat(newGoal);
+    if (!isNaN(goal)) {
+      await updateWeightGoal(goal);
+      setIsModalOpen(false);
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("weight_goal")
+          .eq("id", user.id)
+          .single();
+        setProfile(profileData);
+      }
+    }
+  };
 
   const currentWeight = metrics?.[0]?.weight || 0;
   const previousWeight = metrics?.[1]?.weight || 0;
@@ -29,6 +69,10 @@ const GoalsPage = async () => {
       : currentWeight > previousWeight
       ? "Gained"
       : "Maintained";
+
+  const weightGoal = profile?.weight_goal || 0;
+  const poundsToGoal = Math.abs(currentWeight - weightGoal);
+  const goalProgress = weightGoal > 0 ? (currentWeight / weightGoal) * 100 : 0;
 
   return (
     <div className="w-full min-h-screen bg-background text-foreground">
@@ -42,10 +86,10 @@ const GoalsPage = async () => {
             <div className="absolute -top-2 -right-2 w-8 h-8 border-4 border-white rounded-full bg-primary-dark" />
 
             <div className="flex flex-col items-center text-sm">
-              <span className="font-semibold text-pink-800">
+              <span className="font-semibold text-primary-dark">
                 {weightDifference.toFixed(1)} lbs
               </span>
-              <span className="text-pink-500">{weightChangeStatus}</span>
+              <span className="text-primary">{weightChangeStatus}</span>
             </div>
 
             <div className="relative flex items-center justify-center">
@@ -67,23 +111,46 @@ const GoalsPage = async () => {
                   strokeLinecap="round"
                   fill="none"
                   strokeDasharray="314"
-                  strokeDashoffset="60"
+                  strokeDashoffset={314 - (314 * goalProgress) / 100}
                 />
               </svg>
               <div className="absolute flex flex-col items-center">
-                <span className="text-xl font-bold text-pink-700">
+                <span className="text-xl font-bold text-primary-dark">
                   {currentWeight.toFixed(1)} lbs
                 </span>
-                <span className="text-xs text-pink-500">Current weight</span>
+                <span className="text-xs text-primary">Current weight</span>
               </div>
             </div>
 
-            <div className="flex flex-col items-center text-sm">
-              <span className="font-semibold text-pink-800">10 lbs</span>
-              <span className="text-pink-500">To Goal</span>
+            <div className="flex flex-col items-center">
+              {weightGoal > 0 ? (
+                <>
+                  <span className="font-semibold text-primary-dark">
+                    {poundsToGoal.toFixed(1)} lbs
+                  </span>
+                  <span className="text-primary">To Goal</span>
+                </>
+              ) : (
+                <button onClick={() => setIsModalOpen(true)} className="bg-primary-dark rounded-2xl p-2 cursor-pointer">Set a goal!</button>
+              )}
             </div>
           </div>
         </div>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <form onSubmit={handleSetGoal} className="flex flex-col gap-4">
+            <h3 className="text-lg font-bold">Set Your Weight Goal</h3>
+            <input
+              type="number"
+              value={newGoal}
+              onChange={(e) => setNewGoal(e.target.value)}
+              placeholder="Enter your goal weight"
+              className="p-2 border rounded"
+            />
+            <button type="submit" className="p-2 bg-primary text-white rounded">
+              Save Goal
+            </button>
+          </form>
+        </Modal>
       </main>
     </div>
   );
