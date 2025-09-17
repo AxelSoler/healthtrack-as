@@ -8,7 +8,7 @@ import { Modal } from "@/components/modal/Modal";
 import { updateWeightGoal } from "./actions";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
 import { MetricChart } from "@/components/charts/MetricChart";
-import { MetricForm } from './MetricForm';
+import { MetricForm } from "./MetricForm";
 
 interface Metric {
   created_at: string;
@@ -100,7 +100,15 @@ const GoalsPage = () => {
 
       <main className="p-4 md:p-8 flex flex-col items-center gap-2 md:gap-8">
         <div className="w-full max-w-4xl">
-          <h2 className="text-2xl font-bold mb-4">Your Goals</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">Your Goals</h2>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-primary-dark rounded-2xl px-4 py-2 cursor-pointer"
+            >
+              {weightGoal > 0 ? "Update Goal" : "Set a goal!"}
+            </button>
+          </div>
           <div className="w-full h-[150px] rounded-3xl bg-gradient-to-b from-pink-200 to-pink-100 shadow-md flex items-center justify-evenly p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-20 h-20 bg-primary rounded-bl-full" />
             <div className="absolute -top-2 -right-2 w-8 h-8 border-4 border-white rounded-full bg-primary-dark" />
@@ -158,14 +166,6 @@ const GoalsPage = () => {
             </div>
           </div>
           <MetricForm />
-          <div className="flex justify-center my-4 w-full">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-primary-dark rounded-2xl px-4 py-2 cursor-pointer"
-            >
-              {weightGoal > 0 ? "Update Goal" : "Set a goal!"}
-            </button>
-          </div>
           <MetricChart metrics={metrics || []} />
         </div>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>

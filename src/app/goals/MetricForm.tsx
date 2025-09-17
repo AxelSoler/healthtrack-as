@@ -72,30 +72,33 @@ function MetricFormSection({
 
 export function MetricForm({ onSuccess }: { onSuccess?: () => void }) {
   return (
-    <div className="w-full flex flex-col md:flex-row gap-6 my-8">
-      <MetricFormSection
-        action={addWeight}
-        metricName="weight"
-        label="Weight (lbs)"
-        inputType="number"
-        step="0.1"
-        onSuccess={onSuccess}
-      />
-      <MetricFormSection
-        action={addBloodPressure}
-        metricName="blood_pressure"
-        label="Blood Pressure (e.g., 120/80)"
-        inputType="text"
-        onSuccess={onSuccess}
-      />
-      <MetricFormSection
-        action={addSleepHours}
-        metricName="sleep_hours"
-        label="Sleep (hours)"
-        inputType="number"
-        step="0.5"
-        onSuccess={onSuccess}
-      />
+    <div className="w-full my-8">
+      <h2 className="text-2xl font-bold mb-4">Add latest metrics</h2>
+      <div className="w-full flex flex-col md:flex-row gap-6">
+        <MetricFormSection
+          action={addWeight}
+          metricName="weight"
+          label="Weight (lbs)"
+          inputType="number"
+          step="0.1"
+          onSuccess={onSuccess}
+        />
+        <MetricFormSection
+          action={addBloodPressure}
+          metricName="blood_pressure"
+          label="Blood Pressure (e.g., 120/80)"
+          inputType="text"
+          onSuccess={onSuccess}
+        />
+        <MetricFormSection
+          action={addSleepHours}
+          metricName="sleep_hours"
+          label="Sleep (hours)"
+          inputType="number"
+          step="0.5"
+          onSuccess={onSuccess}
+        />
+      </div>
     </div>
   );
 }
