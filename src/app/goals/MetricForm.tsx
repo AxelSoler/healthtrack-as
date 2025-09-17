@@ -72,7 +72,7 @@ function MetricFormSection({
 
 export function MetricForm({ onSuccess }: { onSuccess?: () => void }) {
   return (
-    <div className="w-full my-8">
+    <div className="w-full">
       <h2 className="text-2xl font-bold mb-4">Add latest metrics</h2>
       <div className="w-full flex flex-col md:flex-row gap-6">
         <MetricFormSection

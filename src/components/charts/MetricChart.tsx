@@ -46,7 +46,7 @@ export const MetricChart = ({ metrics }: MetricChartProps) => {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={300} className="my-2">
       <LineChart
         data={weightData}
         margin={{
