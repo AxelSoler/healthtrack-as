@@ -4,78 +4,73 @@ import { Header } from "@/components/layout/Header";
 import { createClient } from "@/utils/supabase/client";
 import { redirect } from "next/navigation";
 import { useState, useEffect } from "react";
+import useSWR from "swr";
 import { Modal } from "@/components/modal/Modal";
 import { updateWeightGoal } from "./actions";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
 import { MetricChart } from "@/components/charts/MetricChart";
 import { MetricForm } from "./MetricForm";
 
-interface Metric {
-  created_at: string;
-  id: string;
-  user_id: string;
-  weight?: number;
-  blood_pressure?: string;
-  sleep_hours?: number;
-}
+const supabase = createClient();
 
-interface Profile {
-  weight_goal: number;
-}
+const metricsFetcher = async ([, userId]: [string, string]) => {
+  const { data, error } = await supabase
+    .from("metrics")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return data;
+};
+
+const profileFetcher = async ([, userId]: [string, string]) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("weight_goal")
+    .eq("id", userId)
+    .single();
+  if (error) throw error;
+  return data;
+};
 
 const GoalsPage = () => {
-  const [metrics, setMetrics] = useState<Metric[]>([]);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newGoal, setNewGoal] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const supabase = createClient();
+    const getUserId = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-
       if (!user) {
-        redirect("/login");
+        return redirect("/login");
       }
-
-      const { data: metricsData } = await supabase
-        .from("metrics")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
-      setMetrics(metricsData || []);
-
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("weight_goal")
-        .eq("id", user.id)
-        .single();
-      setProfile(profileData);
+      setUserId(user.id);
     };
-
-    fetchData();
+    getUserId();
   }, []);
+
+  const { data: metrics, mutate: mutateMetrics } = useSWR(
+    userId ? ["metrics", userId] : null,
+    metricsFetcher
+  );
+  const { data: profile, mutate: mutateProfile } = useSWR(
+    userId ? ["profile", userId] : null,
+    profileFetcher
+  );
 
   const handleSetGoal = async (e: React.FormEvent) => {
     e.preventDefault();
     const goal = parseFloat(newGoal);
     if (!isNaN(goal)) {
+      mutateProfile({ ...profile, weight_goal: goal }, false);
+
       await updateWeightGoal(goal);
+
+      mutateProfile();
+
       setIsModalOpen(false);
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profileData } = await supabase
-          .from("profiles")
-          .select("weight_goal")
-          .eq("id", user.id)
-          .single();
-        setProfile(profileData);
-      }
     }
   };
 
@@ -165,7 +160,7 @@ const GoalsPage = () => {
               )}
             </div>
           </div>
-          <MetricForm />
+          <MetricForm onSuccess={mutateMetrics} />
           <MetricChart metrics={metrics || []} />
         </div>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
