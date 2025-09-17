@@ -38,6 +38,7 @@ jest.mock("../../components/buttons/SignOutButton", () => ({
 // Mock next/navigation redirect so page.tsx can import it safely
 jest.mock("next/navigation", () => ({
   redirect: jest.fn(),
+  usePathname: () => "/",
 }));
 
 import Dashboard from "@/app/dashboard/page";
