@@ -30,6 +30,15 @@ const metricsFetcher = async ([, userId]: [string, string]) => {
 
 const Dashboard = () => {
   const [userId, setUserId] = useState<string | null>(null);
+  const [randomMessage, setRandomMessage] = useState("");
+
+  useEffect(() => {
+    setRandomMessage(
+      motivationalMessages[
+        Math.floor(Math.random() * motivationalMessages.length)
+      ]
+    );
+  }, []);
 
   useEffect(() => {
     const getUserId = async () => {
@@ -51,10 +60,6 @@ const Dashboard = () => {
 
   const weights = metrics?.map((metric) => metric.weight).filter(Boolean) as number[];
   const latestWeight = weights && weights.length > 0 ? weights[0] : null;
-  const randomMessage =
-    motivationalMessages[
-      Math.floor(Math.random() * motivationalMessages.length)
-    ];
 
   return (
     <div className="w-full min-h-screen bg-background text-foreground">
