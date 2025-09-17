@@ -17,6 +17,7 @@ const NavItem = ({
   return (
     <Link
       href={href}
+      prefetch={true}
       className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
         isActive
           ? "bg-primary text-white"
@@ -70,9 +71,9 @@ export const Header = () => {
       {isMenuOpen && (
         <div className="absolute top-16 right-4 bg-white dark:bg-neutral-900 p-4 rounded-md shadow-lg md:hidden z-60">
           <nav className="flex flex-col gap-4">
-            <Link href="/dashboard">Dashboard</Link>
-            <Link href="/goals">Goals</Link>
-            <Link href="/feedback">Feedback</Link>
+            <Link href="/dashboard" prefetch={true}>Dashboard</Link>
+            <Link href="/goals" prefetch={true}>Goals</Link>
+            <Link href="/feedback" prefetch={true}>Feedback</Link>
             <SignOutButton />
           </nav>
         </div>
