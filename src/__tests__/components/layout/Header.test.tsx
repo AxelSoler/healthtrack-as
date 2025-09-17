@@ -25,9 +25,9 @@ describe("Header", () => {
     expect(goalsLink).toBeInTheDocument();
     expect(goalsLink).toHaveAttribute("href", "/goals");
 
-    const feedbackLink = within(nav).getByRole("link", { name: "Feedback" });
-    expect(feedbackLink).toBeInTheDocument();
-    expect(feedbackLink).toHaveAttribute("href", "/feedback");
+    const historyLink = within(nav).getByRole("link", { name: "History" });
+    expect(historyLink).toBeInTheDocument();
+    expect(historyLink).toHaveAttribute("href", "/history");
 
     // Check for the sign out button
     const signOutButton = screen.getByRole("button", { name: "Sign Out" });
@@ -49,8 +49,8 @@ describe("Header", () => {
     const goalsLink = within(mobileMenu).getByRole("link", { name: "Goals" });
     expect(goalsLink).toBeInTheDocument();
 
-    const feedbackLink = within(mobileMenu).getByRole("link", { name: "Feedback" });
-    expect(feedbackLink).toBeInTheDocument();
+    const historyLink = within(mobileMenu).getByRole("link", { name: "History" });
+    expect(historyLink).toBeInTheDocument();
 
     // Check for the sign out button in mobile menu
     const signOutButton = within(mobileMenu).getByRole("button", { name: "Sign Out" });

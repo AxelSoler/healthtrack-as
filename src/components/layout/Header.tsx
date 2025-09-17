@@ -42,7 +42,7 @@ export const Header = () => {
       <nav className="hidden md:flex gap-4">
         <NavItem href="/dashboard">Dashboard</NavItem>
         <NavItem href="/goals">Goals</NavItem>
-        <NavItem href="/feedback">Feedback</NavItem>
+        <NavItem href="/history">History</NavItem>
       </nav>
       <div className="hidden md:block">
         <SignOutButton />
@@ -73,7 +73,7 @@ export const Header = () => {
           <nav className="flex flex-col gap-4">
             <Link href="/dashboard" prefetch={true}>Dashboard</Link>
             <Link href="/goals" prefetch={true}>Goals</Link>
-            <Link href="/feedback" prefetch={true}>Feedback</Link>
+            <Link href="/history" prefetch={true}>History</Link>
             <SignOutButton />
           </nav>
         </div>
