@@ -21,11 +21,14 @@ export default function SignupPage() {
   }, [state, showNotification]);
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex flex-col h-screen items-center justify-center p-4">
+      <h1 className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-dark font-bold text-4xl mb-8">
+        HEALTH TRACK - AS
+      </h1>
       <div className="w-full max-w-sm">
         <form
           action={formAction}
-          className="bg-neutral-100 dark:bg-neutral-900 p-6 rounded-xl shadow-md space-y-4"
+          className="bg-container-background p-6 rounded-xl shadow-md space-y-4"
         >
           <h1 className="text-xl font-bold text-center">Sign Up</h1>
           <div className="space-y-2">

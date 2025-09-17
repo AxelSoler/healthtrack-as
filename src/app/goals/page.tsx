@@ -87,17 +87,17 @@ const GoalsPage = () => {
             <h2 className="text-2xl font-bold">Your Goals</h2>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="bg-primary-dark rounded-2xl px-4 py-2 cursor-pointer"
+              className="bg-primary-dark text-white rounded-2xl px-4 py-2 cursor-pointer"
             >
               {weightGoal > 0 ? "Update Goal" : "Set a goal!"}
             </button>
           </div>
           {profile && <GoalsCard metrics={metrics || []} profile={profile} />}
         </div>
-        <div className="w-full max-w-4xl flex flex-col gap-8">
+        <div className="w-full max-w-4xl flex flex-col gap-8 bg-container-background shadow-md rounded-xl p-4 md:p-6 my-4">
           <MetricChart metrics={metrics || []} />
-          <MetricForm onSuccess={mutateMetrics} />
         </div>
+          <MetricForm onSuccess={mutateMetrics} />
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <form onSubmit={handleSetGoal} className="flex flex-col gap-4">
             <h3 className="text-lg font-bold">Set Your Weight Goal</h3>

@@ -23,7 +23,7 @@ const metricsFetcher = async ([, userId]: [string, string]) => {
     .select("*")
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
-    .limit(5);
+    .limit(3);
   if (error) throw error;
   return data;
 };
@@ -66,7 +66,7 @@ const Dashboard = () => {
       <Header />
 
       <main className="p-4 md:p-8 flex flex-col items-center gap-2 md:gap-8">
-        <div className="w-full max-w-4xl flex flex-col items-center gap-4 mb-8">
+        <div className="w-full max-w-4xl flex flex-col items-center gap-4 mb-8 bg-container-background shadow-md rounded-xl p-4 md:p-6">
           <p className="text-lg text-center font-semibold text-primary">
             {randomMessage}
           </p>
@@ -90,7 +90,7 @@ const Dashboard = () => {
               metrics.map((metric) => (
                 <div
                   key={metric.id}
-                  className="p-4 bg-neutral-100 dark:bg-neutral-900 rounded-lg shadow-sm flex flex-wrap justify-between items-center"
+                  className="p-4 bg-container-background rounded-lg shadow-sm flex flex-wrap justify-between items-center"
                 >
                   <p className="text-sm text-neutral-500">
                     {new Date(metric.created_at).toLocaleDateString()}

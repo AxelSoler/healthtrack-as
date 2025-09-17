@@ -37,7 +37,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="flex justify-between items-center p-4 border-b border-neutral-200 dark:border-neutral-800">
+    <header className="flex justify-between items-center p-4 border-b border-primary-dark">
       <h1 className="text-xl font-bold text-primary">HealthTrack</h1>
       <nav className="hidden md:flex gap-4">
         <NavItem href="/dashboard">Dashboard</NavItem>
@@ -69,7 +69,7 @@ export const Header = () => {
         </button>
       </div>
       {isMenuOpen && (
-        <div className="absolute top-16 right-4 bg-white dark:bg-neutral-900 p-4 rounded-md shadow-lg md:hidden z-60">
+        <div className="absolute top-16 right-4 bg-container-background p-4 rounded-md shadow-lg md:hidden z-60">
           <nav className="flex flex-col gap-4">
             <Link href="/dashboard" prefetch={true}>Dashboard</Link>
             <Link href="/goals" prefetch={true}>Goals</Link>

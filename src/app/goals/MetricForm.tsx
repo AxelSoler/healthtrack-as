@@ -42,7 +42,7 @@ function MetricFormSection({
   }, [state, showNotification, onSuccess]);
 
   return (
-    <details className="p-6 bg-neutral-100 dark:bg-neutral-900 rounded-lg shadow-md w-full h-fit">
+    <details className="p-6 bg-container-background rounded-lg shadow-md w-full h-fit">
       <summary className="font-medium cursor-pointer">{label}</summary>
       <form ref={formRef} action={formAction} className="mt-4">
         <div className="space-y-4">

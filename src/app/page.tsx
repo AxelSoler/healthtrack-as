@@ -19,13 +19,13 @@ const Home = () => {
         <div className="flex flex-col sm:flex-row gap-4 text-lg sm:text-xl sm:justify-end w-full">
           <Link
             href="/signup"
-            className="bg-neutral-200 dark:bg-neutral-800 p-2 rounded hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors"
+            className="bg-neutral-200 dark:bg-neutral-800 p-2 text-center rounded-lg hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors"
           >
             Create account
           </Link>
           <Link
             href="/login"
-            className="bg-primary p-2 rounded hover:bg-primary-dark transition-colors"
+            className="bg-primary p-2 text-center text-white rounded-lg hover:bg-primary-dark transition-colors"
           >
             Login
           </Link>
