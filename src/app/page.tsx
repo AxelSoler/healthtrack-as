@@ -1,12 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 const Home = () => {
   return (
-    <div className="font-sans grid items-center justify-items-center min-h-screen p-8 gap-16">
-      <main className="flex flex-col gap-8 items-center sm:items-start">
-        <h1 className="text-4xl sm:text-5xl font-bold text-center sm:text-left">
+    <div className="font-sans grid sm:items-center justify-items-center min-h-screen p-8 gap-16">
+      <main className="flex flex-col gap-8 items-center">
+        <Image
+          src="/logo_name.png"
+          alt="Health Track - AS Logo"
+          width={300}
+          height={300}
+          className="rounded-full"
+          priority
+        />
+        <h1 className="text-4xl sm:text-5xl font-bold text-center sm:text-left sm:mr-auto">
           Welcome to{" "}
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-light to-primary-dark">
             HEALTH TRACK - AS

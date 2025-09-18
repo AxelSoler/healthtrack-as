@@ -5,6 +5,7 @@ import { useActionState, useEffect } from "react";
 import { login } from "./actions";
 import { useNotification } from "@/contexts/NotificationContext";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [state, formAction] = useActionState(login, null);
@@ -17,10 +18,15 @@ export default function LoginPage() {
   }, [state, showNotification]);
 
   return (
-    <div className="flex flex-col h-screen items-center justify-center p-4">
-      <h1 className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-dark font-bold text-4xl mb-8">
-        HEALTH TRACK - AS
-      </h1>
+    <div className="flex flex-col h-screen items-center p-4">
+      <Image
+        src="/logo_name.png"
+        alt="Health Track - AS Logo"
+        width={300}
+        height={300}
+        className="rounded-full"
+        priority
+      />
       <div className="w-full max-w-sm">
         <form
           action={formAction}

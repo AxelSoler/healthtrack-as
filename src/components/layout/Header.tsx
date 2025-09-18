@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SignOutButton } from "../buttons/SignOutButton";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const NavItem = ({
   href,
@@ -38,7 +39,17 @@ export const Header = () => {
 
   return (
     <header className="flex justify-between items-center p-4 border-b border-primary-dark">
-      <h1 className="text-xl font-bold text-primary">HealthTrack</h1>
+      <div className="flex items-center gap-2">
+        <Image
+          src="/logo.png"
+          alt="Health Track - AS Logo"
+          width={50}
+          height={50}
+          className="rounded-full"
+          priority
+        />
+        <h1 className="text-xl font-bold text-primary">HealthTrack</h1>
+      </div>
       <nav className="hidden md:flex gap-4">
         <NavItem href="/dashboard">Dashboard</NavItem>
         <NavItem href="/goals">Goals</NavItem>
@@ -71,9 +82,15 @@ export const Header = () => {
       {isMenuOpen && (
         <div className="absolute top-16 right-4 bg-container-background p-4 rounded-md shadow-lg md:hidden z-60">
           <nav className="flex flex-col gap-4">
-            <Link href="/dashboard" prefetch={true}>Dashboard</Link>
-            <Link href="/goals" prefetch={true}>Goals</Link>
-            <Link href="/history" prefetch={true}>History</Link>
+            <Link href="/dashboard" prefetch={true}>
+              Dashboard
+            </Link>
+            <Link href="/goals" prefetch={true}>
+              Goals
+            </Link>
+            <Link href="/history" prefetch={true}>
+              History
+            </Link>
             <SignOutButton />
           </nav>
         </div>
