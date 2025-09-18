@@ -83,21 +83,23 @@ const GoalsPage = () => {
 
       <main className="p-4 md:p-8 flex flex-col items-center gap-2 md:gap-8">
         <div className="w-full max-w-4xl">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">Your Goals</h2>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-primary-dark text-white rounded-2xl px-4 py-2 cursor-pointer"
-            >
-              {weightGoal > 0 ? "Update Goal" : "Set a goal!"}
-            </button>
+          <div className="w-full">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">Your Goals</h2>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-primary-dark text-white rounded-2xl px-4 py-2 cursor-pointer"
+              >
+                {weightGoal > 0 ? "Update Goal" : "Set a goal!"}
+              </button>
+            </div>
+            {profile && <GoalsCard metrics={metrics || []} profile={profile} />}
           </div>
-          {profile && <GoalsCard metrics={metrics || []} profile={profile} />}
-        </div>
-        <div className="w-full max-w-4xl flex flex-col gap-8 bg-container-background shadow-md rounded-xl p-4 md:p-6 my-4">
-          <MetricChart metrics={metrics || []} />
-        </div>
+          <div className="w-full flex flex-col gap-8 bg-container-background shadow-md rounded-xl p-4 md:p-6 my-4 md:my-8">
+            <MetricChart metrics={metrics || []} />
+          </div>
           <MetricForm onSuccess={mutateMetrics} />
+        </div>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <form onSubmit={handleSetGoal} className="flex flex-col gap-4">
             <h3 className="text-lg font-bold">Set Your Weight Goal</h3>

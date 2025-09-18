@@ -1,7 +1,7 @@
-'use server';
+"use server";
 
-import { createClient } from '@/utils/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export async function updateWeightGoal(weight_goal: number) {
@@ -13,22 +13,22 @@ export async function updateWeightGoal(weight_goal: number) {
 
   if (!user) {
     return {
-      error: 'You must be logged in to update your weight goal.',
+      error: "You must be logged in to update your weight goal.",
     };
   }
 
   const { error } = await supabase
-    .from('profiles')
+    .from("profiles")
     .update({ weight_goal })
-    .eq('id', user.id);
+    .eq("id", user.id);
 
   if (error) {
     return {
-      error: 'Failed to update weight goal.',
+      error: "Failed to update weight goal.",
     };
   }
 
-  revalidatePath('/goals');
+  revalidatePath("/goals");
 
   return {
     success: true,
@@ -65,7 +65,23 @@ async function addMetricByType(
     };
   }
 
-  revalidatePath("/dashboard");
+  const history_description = `Added ${type.replace(
+    "_",
+    " "
+  )}: ${value}`;
+
+  const { error: historyError } = await supabase.from("history_logs").insert([
+    {
+      user_id: user.id,
+      description: history_description,
+    },
+  ]);
+
+  if (historyError) {
+    console.error(historyError);
+  }
+
+  revalidatePath("/goals");
   return {
     success: true,
   };
@@ -92,7 +108,10 @@ const BloodPressureSchema = z.object({
   blood_pressure: z.string(),
 });
 
-export async function addBloodPressure(_prevState: unknown, formData: FormData) {
+export async function addBloodPressure(
+  _prevState: unknown,
+  formData: FormData
+) {
   const result = BloodPressureSchema.safeParse({
     blood_pressure: formData.get("blood_pressure"),
   });
