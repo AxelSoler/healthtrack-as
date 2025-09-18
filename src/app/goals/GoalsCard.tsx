@@ -6,8 +6,9 @@ interface GoalsCardProps {
 }
 
 const GoalsCard = ({ metrics, profile }: GoalsCardProps) => {
-  const currentWeight = metrics?.[0]?.weight || 0;
-  const previousWeight = metrics?.[1]?.weight || 0;
+  const weightMetrics = metrics.filter((m) => m.weight !== null);
+  const currentWeight = weightMetrics?.[0]?.weight || 0;
+  const previousWeight = weightMetrics?.[1]?.weight || 0;
   const weightDifference = Math.abs(currentWeight - previousWeight);
   const weightChangeStatus =
     currentWeight < previousWeight
