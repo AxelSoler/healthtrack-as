@@ -1,5 +1,6 @@
 "use server";
 
+import { addHistoryLog } from "@/utils/history";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -27,6 +28,10 @@ export async function updateWeightGoal(weight_goal: number) {
       error: "Failed to update weight goal.",
     };
   }
+
+  const history_description = `Updated weight goal to ${weight_goal} lbs`;
+
+  await addHistoryLog(supabase, user, history_description);
 
   revalidatePath("/goals");
 
@@ -65,21 +70,9 @@ async function addMetricByType(
     };
   }
 
-  const history_description = `Added ${type.replace(
-    "_",
-    " "
-  )}: ${value}`;
+  const history_description = `Added ${type.replace(/_/g, " ")}: ${value}`;
 
-  const { error: historyError } = await supabase.from("history_logs").insert([
-    {
-      user_id: user.id,
-      description: history_description,
-    },
-  ]);
-
-  if (historyError) {
-    console.error(historyError);
-  }
+  await addHistoryLog(supabase, user, history_description);
 
   revalidatePath("/goals");
   return {
